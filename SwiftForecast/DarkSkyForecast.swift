@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class SwiftForecast {
+public class DarkSkyForecast {
     let apiKey: String
     private let jsonProvider: WeatherJSONProvider
     
@@ -19,6 +19,12 @@ public class SwiftForecast {
     
     public func getCurrentForecast(latitude: String, longitude: String) -> ForecastInfo {
         let jsonData = self.jsonProvider.getWeatherJSON(latitude, longitude: longitude)
+        let forecast = ForecastInfo(jsonData: jsonData)
+        return forecast
+    }
+    
+    public func getPastForecast(latitude: String, longitude: String, atTime: NSDate) -> ForecastInfo {
+        let jsonData = self.jsonProvider.getPastWeatherJSON(latitude, longitude: longitude, time: atTime)
         let forecast = ForecastInfo(jsonData: jsonData)
         return forecast
     }

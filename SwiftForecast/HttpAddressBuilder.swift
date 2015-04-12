@@ -25,4 +25,13 @@ class HttpAddressBuilder {
         let fullURL = NSURL(string: urlBase.absoluteString! + urlParams)
         return fullURL
     }
+    
+    func createPastForecastURL(latitude: String, longitude: String, time: NSDate) -> NSURL? {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        let dateString = dateFormatter.stringFromDate(time)
+        let urlParams = "/" + apiKey + "/" + latitude + "," + longitude + "," + dateString
+        let fullURL = NSURL(string: urlBase.absoluteString! + urlParams)
+        return fullURL
+    }
 }

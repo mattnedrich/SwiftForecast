@@ -20,10 +20,15 @@ class WeatherJSONProvider {
         return getJSONSync(url!)
     }
     
+    func getPastWeatherJSON(latitude: String, longitude: String, time: NSDate) -> NSDictionary {
+        let url = urlBuilder.createPastForecastURL(latitude, longitude: longitude, time: time)
+        return getJSONSync(url!)
+    }
+    
     func getJSONSync(url: NSURL) -> NSDictionary {
         let responseData = getURLResponseSync(url)
         var error: NSError?
-        let jsonDictionary = NSJSONSerialization.JSONObjectWithData(responseData, options: nil, error: &error) as NSDictionary
+        let jsonDictionary = NSJSONSerialization.JSONObjectWithData(responseData, options: nil, error: &error) as! NSDictionary
         return jsonDictionary
     }
     

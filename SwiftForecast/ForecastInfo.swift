@@ -17,8 +17,8 @@ public class ForecastInfo {
     public let minutely: DataBlock?
     public let hourly: DataBlock?
     public let daily: DataBlock?
-//    let alerts: Array<String>
-//    let flags: String
+    public let flags: ForecastFlags?
+    public var alerts: Array<Alert>
     
     init(jsonData: NSDictionary){
         self.latitude = jsonData["latitude"] as? Double
@@ -26,17 +26,42 @@ public class ForecastInfo {
         self.timezone = jsonData["timezone"] as? String
         self.offset = jsonData["offset"] as? Int
 
-        let currentlyJSON = jsonData["currently"] as NSDictionary
-        self.currently = DataPoint(jsonDict: currentlyJSON)
+        if let currentlyJSON = jsonData["currently"] as? NSDictionary {
+            self.currently = DataPoint(jsonDict: currentlyJSON)
+        } else {
+            self.currently = nil
+        }
         
-        let minutelyJson = jsonData["minutely"] as NSDictionary
-        self.minutely = DataBlock(jsonData: minutelyJson)
+        if let minutelyJson = jsonData["minutely"] as? NSDictionary{
+            self.minutely = DataBlock(jsonData: minutelyJson)
+        } else {
+            self.minutely = nil
+        }
         
-        let hourlyJson = jsonData["hourly"] as NSDictionary
-        self.hourly = DataBlock(jsonData: hourlyJson)
-        
-        let dailyJson = jsonData["daily"] as NSDictionary
-        self.daily = DataBlock(jsonData: dailyJson)
+        if let hourlyJson = jsonData["hourly"] as? NSDictionary {
+            self.hourly = DataBlock(jsonData: hourlyJson)
+        } else {
+            self.hourly = nil
+        }
+
+        if let dailyJson = jsonData["daily"] as? NSDictionary {
+            self.daily = DataBlock(jsonData: dailyJson)
+        } else {
+            self.daily = nil
+        }
+
+        if let flagJson = jsonData["flags"] as? NSDictionary {
+            self.flags = ForecastFlags(jsonData: flagJson)
+        } else {
+            self.flags = nil
+        }
+
+        self.alerts = Array()
+        if let alertsJson = jsonData["alerts"] as? Array<NSDictionary> {
+            for alertJson in alertsJson  {
+                self.alerts.append(Alert(jsonData: alertJson))
+            }
+        }
     }
     
 }
