@@ -18,9 +18,9 @@ public class DataBlock {
         self.summary = jsonData["summary"] as? String
         self.icon = jsonData["icon"] as? String
         
-        if let dataPoints = jsonData["data"] as? Array<Dictionary<String, String>> {
+        if let dataPoints = jsonData["data"] as? Array<Dictionary<String, AnyObject>> {
             for dataPointJSON in dataPoints {
-                let dataPointDictionary = dataPointJSON as Dictionary<String, String>
+                let dataPointDictionary = dataPointJSON as Dictionary<String, AnyObject>
                 let dataPoint = DataPoint(jsonDict: dataPointDictionary)
                 self.dataPoints.append(dataPoint)
             }
